@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+    <title> AngularJS DI </title>
+    <script src="App/secondModule.js"></script>
+    <script src="App/app.js"></script>
+</head>
+<body ng-app="myApp">
+    <div ng-controller="firstController" style="background-color:aliceblue">
+        <h2>First Controller</h2>
+        Current Version : {{cntVersion}}
+        <br />
+        {{UserName}} - {{Course}}
+        <br />
+        <input ng-model="UserName"/> <button ng-click="updateUserdata()">Update all controllers</button>
+        <hr />
+    </div>
+    <div ng-controller="secondController" style="background-color:aquamarine">
+        <h2> Second Controller</h2>
+        First version : {{baseVersion}}
+        <br />
+        Current User : {{name}} <button ng-click="updateNameFromFactory()">Update my second controller</button>
+    </div>
+</body>
+</html>
