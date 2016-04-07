@@ -17,4 +17,32 @@ angular.module('coreModule', [])
             $rootScope.$broadcast('name_has_been_changed', {myId : 12});
         }
         return myFacory;
-    });
+    })
+
+    .service('myService', function () {
+        this.myServiceName = "my Service 1";
+        this.SayHello = function () {
+            alert("Hello World !!!");
+        }
+    })
+
+    .provider('hello', function () {
+
+        this.name = "Abhi";
+
+        this.$get = function () {
+            var localVariable = this.name;
+            return {
+                sayHello: function () {
+                    alert("Hello " + localVariable);
+                }
+            };
+
+        }
+
+        this.setName = function (name) {
+            this.name = name;
+        }
+
+    })
+;
