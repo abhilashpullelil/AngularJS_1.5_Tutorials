@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+    <title> AngularJS Directives </title>
+    
+</head>
+<body ng-app="myApp" >
+    <div ng-controller="myController">
+        <input ng-model="data1" />
+
+        <div style="border:1px solid" ng-repeat="item in students | filter1 : data1">
+            <h3> {{item.Name}}, {{item.Course}}, {{item.Time}} </h3>
+        </div>
+
+        {{data | student : data1}}
+        {{test | student}}
+        <student-details id="studentD" data-course="true" data-details="student" test="data">
+        </student-details>
+    </div>
+    <div ng-controller="seconController">
+        <student-details id="studentD" data-course="false" data-details="stu"></student-details>
+    </div>
+   
+
+
+</body>
+</html>
+
+<script>
+    angular.module('myApp', [])
+            .controller('myController', function ($scope) {
+                $scope.data = "Testing";
+                $scope.test = "Me";
+
+                $scope.students = [
+                    {
+                        Name: 'Student 1',
+                        Course: 'AngularJS',
+                        Time: 7
+                    },
+                    {
+                        Name: 'Student 2',
+                        Course: 'C#',
+                        Time: 16
+                    },
+                    {
+                        Name: 'Student 3',
+                        Course: 'C++',
+                        Time: 40
+                    }
+                ];
+
+                $scope.student = {
+                    Name: 'Aroma',
+                    Course: 'AngularJS',
+                    Time: 20
+                };
+            })
+            .controller('seconController', function ($scope) {
+                $scope.stu = {
+                    Name: 'Abhi',
+                    Course: 'C#',
+                    Time: 20
+                };
+            })
+
+            .filter('student', function () {
+                return function (input, param1) {
+                    return input + "-" + param1;
+                }
+            })
+
+            .filter('filter1', function () {
+                return function (input, param1) {
+                    if (param1 === undefined || param1 == "") {
+                        return input;
+                    }
+                    debugger;
+                   
+                    var temp = [];
+
+                    angular.forEach(input, function (value) {
+                        if (value.Time % param1 == 0) {
+                            temp.push(value);
+                        }
+                    });
+
+                    return temp;
+                }
+            })
+
+            .directive('studentDetails', function () {
+                return {
+                    restrict: 'AEC',
+                    scope: {
+                        details: '=',
+                        Name: '=test'
+                    },
+                    templateUrl: 'studentDetails.html',
+
+                    link: function(scope, element, attr, contr){
+                        //scope.Name = "Abhi";
+                        var asd = scope.details;
+
+                        if (attr.course == "true") {
+                            scope.isCourseVisible = true;
+                        }
+                        else {
+                            scope.isCourseVisible = false;
+                        }
+
+                        scope.sayHello = function () {
+                            console.log("Hello !!!");
+                        }
+                    }
+                }
+            });
+</script>

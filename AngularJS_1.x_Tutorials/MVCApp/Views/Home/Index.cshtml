@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+
+<div ng-app="myApp" ng-controller="myController">
+    <div class="jumbotron">
+        <h1>ASP.NET with AngularJS</h1>
+        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Angular with MVC application</h2>
+            <button class="btn btn-info" ng-click="getAllPersons()">Get all persons</button>
+            <p ng-repeat="item in allPersons">
+                {{item.Name}}
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+    angular.module('myApp', []).controller('myController', function ($scope, $http) {
+
+        $scope.allPersons = [];
+        $scope.randomPerson = {};
+        
+        $scope.getAllPersons = function () {
+            $http.get('http://localhost:1168/Home/GetAllPersons')
+            .then(function (response) {
+                $scope.allPersons = response.data.myData;
+            },
+            function (error) {
+                alert("An error occured while requesting for the data");
+            });
+        }
+
+    });
+</script>
